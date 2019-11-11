@@ -16,9 +16,13 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://repo.spring.io/milestone'
+    }
 }
 
 dependencies {
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -30,6 +34,9 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    compile group: 'org.springframework.social', name: 'spring-social-core', version: '1.1.6.RELEASE'
+    compile 'org.springframework.social:spring-social-github:1.0.0.M4'
+    compile group: 'org.springframework.social', name: 'spring-social-config', version: '1.1.6.RELEASE'
 }
 
 test {
