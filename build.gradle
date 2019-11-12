@@ -31,9 +31,8 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.springframework.social', name: 'spring-social-core', version: '1.1.6.RELEASE'
     compile 'org.springframework.social:spring-social-github:1.0.0.M4'
     compile group: 'org.springframework.social', name: 'spring-social-config', version: '1.1.6.RELEASE'

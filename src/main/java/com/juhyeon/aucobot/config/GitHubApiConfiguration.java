@@ -1,6 +1,7 @@
 package com.juhyeon.aucobot.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -33,6 +34,8 @@ public class GitHubApiConfiguration extends SocialConfigurerAdapter {
 
     private GitHubProperties githubProperties;
 
+    public GitHubApiConfiguration() {}
+
     @Autowired
     public void setGitHubProperties(GitHubProperties githubProperties) {
         this.githubProperties = githubProperties;
@@ -44,6 +47,7 @@ public class GitHubApiConfiguration extends SocialConfigurerAdapter {
     }
 
     private ConnectionFactory<?> createConnectionFactory() {
+
         return new GitHubConnectionFactory(this.githubProperties.getClientId(),
                                         this.githubProperties.getClientSecret());
     }
