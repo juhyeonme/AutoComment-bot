@@ -1,0 +1,12 @@
+spring:
+  social:
+    github:
+      clientId: 
+      clientSecret : 
+
+  api:
+    github:
+      access-token: 
+      user: juhyeon96
+      repo: AutoComment-bot
+

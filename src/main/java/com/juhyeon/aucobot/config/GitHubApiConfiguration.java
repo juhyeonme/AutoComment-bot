@@ -15,7 +15,9 @@ import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactory;
+import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.github.api.GitHub;
 import org.springframework.social.github.api.impl.GitHubTemplate;
 import org.springframework.social.github.connect.GitHubConnectionFactory;
@@ -41,7 +43,7 @@ public class GitHubApiConfiguration extends SocialConfigurerAdapter {
         configurer.addConnectionFactory(createConnectionFactory());
     }
 
-    private ConnectionFactory createConnectionFactory() {
+    private ConnectionFactory<?> createConnectionFactory() {
         return new GitHubConnectionFactory(this.githubProperties.getClientId(),
                                         this.githubProperties.getClientSecret());
     }
@@ -58,5 +60,10 @@ public class GitHubApiConfiguration extends SocialConfigurerAdapter {
         return new GitHubTemplate(this.githubProperties.getClientSecret());
     }
 
+    @Bean
+    public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
+                                                ConnectionRepository connectionRepository) {
 
+        return new ConnectController(connectionFactoryLocator, connectionRepository);
+    }
 }
