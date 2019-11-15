@@ -11,19 +11,21 @@ import org.springframework.util.ObjectUtils;
 
 @Setter
 @Getter
-public class Event {
+public class Event<T> {
     private static final Logger logger = LoggerFactory.getLogger(Event.class);
-    private BotClassifier classifier;
+    private BotClassifier<T> classifier;
+    private T item;
 
     Event() {}
 
-    public Event(BotClassifier classifier) {
+    public Event(BotClassifier<T> classifier, T item) {
         this.classifier = classifier;
+        this.item = item;
     }
 
     public void execute() {
         try {
-            BotRequest botRequest = classifier.classify();
+            BotRequest botRequest = classifier.classify(item);
 
             if(ObjectUtils.isEmpty(botRequest)) {
                 return;

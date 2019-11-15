@@ -1,5 +1,6 @@
 package com.juhyeon.aucobot.bot;
 
+import com.juhyeon.aucobot.bot.event.Event;
 import com.juhyeon.aucobot.bot.exception.InvalidBotRequestException;
 import com.juhyeon.aucobot.service.GitHubIssueService;
 import org.eclipse.egit.github.core.Issue;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class CustomBotClassifier implements BotClassifier {
+public class CustomBotClassifier<Event> implements BotClassifier<Event> {
     private static final Logger logger = LoggerFactory.getLogger(CustomBotClassifier.class);
     private GitHubIssueService gitHubIssueService;
     private int issueNumber = 0;
@@ -22,27 +23,28 @@ public class CustomBotClassifier implements BotClassifier {
     }
 
     @Override
-    public BotRequest classify() {
-        try {
-            Issue issue = this.gitHubIssueService.readNewIssue();
-            this.issueNumber = issue.getNumber();
-            BotRequest botRequest = BotRequest.builder()
+    public BotRequest classify(Event event) {
+
+        BotRequest botRequest = null;
+
+        //TODO : @param event를 botRequest 형식에 적절히 parsing.
+        /*
+       Issue issue = this.gitHubIssueService.readNewIssue();
+       this.issueNumber = issue.getNumber();
+       BotRequest botRequest = BotRequest.builder()
                                     .issueNumber(String.valueOf(issueNumber))
                                     .author(issue.getUser().getLogin())
                                     .title(issue.getTitle())
                                     .body(issue.getBody())
                                     .build();
 
-            if(!botRequest.checkValidation()) {
-                return skip();
-            }
+        */
 
-            return botRequest;
-
-        } catch (IOException exception) {
-            logger.error("[BotClassifier] IOException : Cannot get new isuue.");
+        if(!botRequest.checkValidation()) {
             return skip();
         }
+
+        return botRequest;
     }
 
     private BotRequest skip() {

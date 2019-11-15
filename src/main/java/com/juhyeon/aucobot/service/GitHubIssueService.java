@@ -3,6 +3,9 @@ package com.juhyeon.aucobot.service;
 import com.juhyeon.aucobot.config.GitHubProperties;
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.client.PageIterator;
+import org.eclipse.egit.github.core.event.Event;
+import org.eclipse.egit.github.core.service.EventService;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.slf4j.Logger;
@@ -26,6 +29,7 @@ public class GitHubIssueService {
     private final static Logger logger = LoggerFactory.getLogger(GitHubIssueService.class);
     private IssueService issueService;
     private RepositoryService repositoryService;
+    private EventService eventService;
     private GitHubClient client;
     private org.eclipse.egit.github.core.Repository repository;
     private String owner;
@@ -46,22 +50,22 @@ public class GitHubIssueService {
         this.issueService = new IssueService(this.client);
         this.repositoryService = new RepositoryService(this.client);
         this.repository = this.repositoryService.getRepository(this.owner, this.repo);
+        this.eventService = new EventService(this.client);
     }
 
     public GitHubClient getGitHubClient() {
         return this.client;
     }
 
-
-    public Issue readNewIssue() throws IOException {
-        logger.info("[GitHubService] Try to read New Issue.");
-        LinkedList<Issue> issueList = null;
+    public PageIterator<Event> getIterableEvent() throws IOException {
+        logger.info("[GitHubService] Try to get events.");
+        PageIterator<Event> iterableEvents = null;
 
         if(this.repository.getOpenIssues() > 0) {
-            issueList = (LinkedList<Issue>) issueService.getIssues(this.owner, this.repo, Collections.singletonMap("state", "open"));
+            iterableEvents = this.eventService.pageEvents(this.repository);
 
-            if(issueList != null && issueList.size() > 0) {
-                return issueList.get(0);
+            if(iterableEvents != null && iterableEvents.hasNext()) {
+                return iterableEvents;
             }
         }
 
