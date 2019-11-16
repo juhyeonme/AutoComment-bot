@@ -1,9 +1,9 @@
 package com.juhyeon.aucobot.service;
 
-import com.juhyeon.aucobot.bot.event.Event;
+import com.juhyeon.aucobot.bot.event.IEvent;
 
 import java.util.List;
 
 public interface IssueEventSensor {
-    List<Event> sensingEvent(GitHubIssueService service);
+    List<IEvent> sensingEvent(GitHubIssueService service);
 }

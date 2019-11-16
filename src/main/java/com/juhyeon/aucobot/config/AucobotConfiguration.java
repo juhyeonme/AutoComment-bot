@@ -1,7 +1,8 @@
 package com.juhyeon.aucobot.config;
 
 
-import com.juhyeon.aucobot.bot.event.EventQueue;
+import com.juhyeon.aucobot.bot.event.IEventQueue;
+import com.juhyeon.aucobot.service.CustomIssueEventSensor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,8 @@ public class AucobotConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public EventQueue eventQueue() {
-        return new EventQueue();
+    public IEventQueue eventQueue() {
+        return new IEventQueue();
     }
 
     @Bean
@@ -26,5 +27,11 @@ public class AucobotConfiguration {
         executor.setQueueCapacity(100);
         executor.setWaitForTasksToCompleteOnShutdown(true);
         return executor;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public CustomIssueEventSensor customIssueEventSensor() {
+        return new CustomIssueEventSensor();
     }
 }
