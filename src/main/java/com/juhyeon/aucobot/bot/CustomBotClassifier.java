@@ -1,14 +1,11 @@
 package com.juhyeon.aucobot.bot;
 
-import com.juhyeon.aucobot.bot.event.Event;
 import com.juhyeon.aucobot.bot.exception.InvalidBotRequestException;
 import com.juhyeon.aucobot.service.GitHubIssueService;
-import org.eclipse.egit.github.core.Issue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 
 @Service
@@ -16,6 +13,8 @@ public class CustomBotClassifier<Event> implements BotClassifier<Event> {
     private static final Logger logger = LoggerFactory.getLogger(CustomBotClassifier.class);
     private GitHubIssueService gitHubIssueService;
     private int issueNumber = 0;
+
+    CustomBotClassifier(){}
 
     @Autowired
     public CustomBotClassifier(GitHubIssueService githubIssueService) {
@@ -38,13 +37,15 @@ public class CustomBotClassifier<Event> implements BotClassifier<Event> {
                                     .body(issue.getBody())
                                     .build();
 
-        */
+
 
         if(!botRequest.checkValidation()) {
             return skip();
         }
 
-        return botRequest;
+         */
+
+        return null;
     }
 
     private BotRequest skip() {

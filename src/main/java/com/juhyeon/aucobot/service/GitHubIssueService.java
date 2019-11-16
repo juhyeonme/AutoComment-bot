@@ -21,7 +21,7 @@ import java.util.LinkedList;
 
 
 @Repository
-@ConditionalOnProperty(prefix = "spring.api.github", name = "github-info")
+//@ConditionalOnProperty(prefix = "spring.api.github", name = "github-info")
 @EnableConfigurationProperties(GitHubProperties.class)
 @ConditionalOnWebApplication
 public class GitHubIssueService {

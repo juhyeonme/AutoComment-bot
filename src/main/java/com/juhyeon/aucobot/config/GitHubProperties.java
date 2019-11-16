@@ -1,15 +1,15 @@
 package com.juhyeon.aucobot.config;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+
 
 @Getter
+@Setter
 @NoArgsConstructor
-@ConfigurationProperties("spring.api.github")
-@Configuration
+@ConfigurationProperties(prefix = "spring.api.github")
 public class GitHubProperties {
 
     private String user;
