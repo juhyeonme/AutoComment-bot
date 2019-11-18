@@ -26,24 +26,25 @@ public class CustomIssueEventSensor implements IssueEventSensor {
 
     private final static Logger logger = LoggerFactory.getLogger(CustomIssueEventSensor.class);
     private CustomBotClassifier<Event> botClassifier;
+    private GitHubIssueService service;
     private final static String ISSUE_EVENT_TYPE = "IssuesEvent";
     private final static String OPENED_ISSUE_ACTION = "opened";
     private final static int BOT_SCHEDULE_PERIOD = 30;
     private LinkedList<Event> checkedEvents;
 
     @Autowired
-    public void setCustomBotClassifier(CustomBotClassifier<Event> botClassifier) {
+    public void setCustomBotClassifier(CustomBotClassifier<Event> botClassifier, GitHubIssueService service) {
         this.botClassifier = botClassifier;
     }
 
     @Override
-    public List<IEvent> sensingEvent(GitHubIssueService service) {
+    public List<IEvent> sensingEvent() {
         PageIterator<Event> iterableEvents;
         LinkedList<Event> eventsOnSamePage;
         this.checkedEvents = new LinkedList<>();
 
         try {
-            iterableEvents = service.getIterableEvent();
+            iterableEvents = this.service.getIterableEvent();
 
             while(iterableEvents.hasNext()) {
                 eventsOnSamePage = new LinkedList<>(iterableEvents.next());

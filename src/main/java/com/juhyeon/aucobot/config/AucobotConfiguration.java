@@ -19,7 +19,7 @@ public class AucobotConfiguration {
         return new IEventQueue();
     }
 
-    @Bean
+    @Bean(name = "aucobotThreadPoolManager")
     public ThreadPoolTaskExecutor aucobotThreadPoolManager() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
@@ -29,9 +29,4 @@ public class AucobotConfiguration {
         return executor;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public CustomIssueEventSensor customIssueEventSensor() {
-        return new CustomIssueEventSensor();
-    }
 }
