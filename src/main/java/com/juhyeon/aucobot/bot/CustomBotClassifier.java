@@ -14,7 +14,6 @@ import java.io.IOException;
 public class CustomBotClassifier<Event> implements BotClassifier<Event> {
     private static final Logger logger = LoggerFactory.getLogger(CustomBotClassifier.class);
     private GitHubIssueService gitHubIssueService;
-    private int issueNumber = 0;
 
     CustomBotClassifier(){}
 
@@ -30,10 +29,9 @@ public class CustomBotClassifier<Event> implements BotClassifier<Event> {
         if(event instanceof org.eclipse.egit.github.core.event.Event) {
             IssuesPayload payload = (IssuesPayload)((org.eclipse.egit.github.core.event.Event) event).getPayload();
             Issue issue = payload.getIssue();
-            this.issueNumber = issue.getNumber();
 
             botRequest = BotRequest.builder()
-                    .issueNumber(String.valueOf(issueNumber))
+                    .issueNumber(String.valueOf(issue.getNumber()))
                     .author(issue.getUser().getLogin())
                     .title(issue.getTitle())
                     .body(issue.getBody())
@@ -42,6 +40,8 @@ public class CustomBotClassifier<Event> implements BotClassifier<Event> {
             if (!botRequest.checkValidation()) {
                 return skip();
             }
+
+            return botRequest;
         }
 
         return null;
@@ -52,14 +52,14 @@ public class CustomBotClassifier<Event> implements BotClassifier<Event> {
     }
 
     @Override
-    public void message() {
+    public void message(String issueNumber) {
         //TODO : 상황에 따른 message type으로 write-comment
         logger.info("[BotClassifier] Bot comments to the issue.");
 
-        if(this.issueNumber > 0) {
+        if(Integer.parseInt(issueNumber) > 0) {
 
             try {
-                this.gitHubIssueService.createIssueComment(this.issueNumber, "안녕안녕 issue 인식 완료~!");
+                this.gitHubIssueService.createIssueComment(Integer.parseInt(issueNumber), "안녕안녕 issue 인식 완료~!");
             } catch (IOException exception) {
                 logger.error("[BotClassifier] IOException : Cannot create comment.");
             }

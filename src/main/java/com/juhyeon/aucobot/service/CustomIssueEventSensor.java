@@ -29,7 +29,7 @@ public class CustomIssueEventSensor implements IssueEventSensor {
     private GitHubIssueService service;
     private final static String ISSUE_EVENT_TYPE = "IssuesEvent";
     private final static String OPENED_ISSUE_ACTION = "opened";
-    private final static int BOT_SCHEDULE_PERIOD = 30;
+    private final static int BOT_SCHEDULE_PERIOD = 5000;
     private LinkedList<Event> checkedEvents;
 
     @Autowired
@@ -80,7 +80,7 @@ public class CustomIssueEventSensor implements IssueEventSensor {
         for(Event item : eventsOnSamePage) {
             eventTime = item.getCreatedAt().getTime();
 
-            if(now-eventTime <= BOT_SCHEDULE_PERIOD) {
+            if(now-eventTime <= 10000) {
                 if(isOpenedIssue(item)) {
                     this.checkedEvents.add(item);
                 }

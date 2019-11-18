@@ -10,16 +10,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class TaskRunner {
     private static final Logger logger = LoggerFactory.getLogger(TaskRunner.class);
-    private final static int BOT_SCHEDULE_PERIOD = 30;
+    private final static int BOT_SCHEDULE_PERIOD = 5000;
     private ThreadPoolTaskExecutor executor;
     private IEventQueue iEventQueue;
     private List<CustomIssueEventSensor> eventSensors;
@@ -49,9 +48,9 @@ public class TaskRunner {
     @Scheduled(fixedDelay = BOT_SCHEDULE_PERIOD)
     public void sensingIEvent() {
         for(CustomIssueEventSensor eventSensor : eventSensors) {
-            LinkedList<IEvent> sensedEvents;
+            List<IEvent> sensedEvents;
             try {
-                sensedEvents = (LinkedList<IEvent>) eventSensor.sensingEvent();
+                sensedEvents = eventSensor.sensingEvent();
             }
             catch(ClassCastException exception) {
                 sensedEvents = null;

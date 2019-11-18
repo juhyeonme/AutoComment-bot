@@ -31,7 +31,7 @@ public class IEvent<T> {
                 return;
             }
 
-            classifier.message();
+            classifier.message(botRequest.getIssueNumber());
 
         } catch(InvalidBotRequestException e) {
             logger.error("[Bot-Event] InvalidBotRequestException : classify || message");

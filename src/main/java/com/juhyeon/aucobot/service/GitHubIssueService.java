@@ -1,7 +1,6 @@
 package com.juhyeon.aucobot.service;
 
 import com.juhyeon.aucobot.config.GitHubProperties;
-import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.client.PageIterator;
 import org.eclipse.egit.github.core.event.Event;
