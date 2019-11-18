@@ -1,12 +1,27 @@
 spring:
-  social:
-    github:
-      clientId: 
-      clientSecret : 
-
   api:
     github:
-      access-token: 
+      access-token:
       user: juhyeon96
+      password:
       repo: AutoComment-bot
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/bot?useSSL=false&useUnicode=yes&characterEncoding=utf-8
+    username: 
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        format_sql: true
+      session:
+        store-type: jdbc
+        jdbc:
+          initialize-schema: always
+
 

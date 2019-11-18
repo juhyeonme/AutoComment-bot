@@ -29,7 +29,8 @@ public class CustomIssueEventSensor implements IssueEventSensor {
     private GitHubIssueService service;
     private final static String ISSUE_EVENT_TYPE = "IssuesEvent";
     private final static String OPENED_ISSUE_ACTION = "opened";
-    private final static int BOT_SCHEDULE_PERIOD = 5000;
+    //new Date().getTime() 으로 얻는 milisecond(54xx/ 55xx/ ...)와 scheduling period(5000) 간 불일치 -> 일단 6000으로 설정.
+    private final static int BOT_SCHEDULE_PERIOD = 6000;
     private LinkedList<Event> checkedEvents;
 
     @Autowired
@@ -80,7 +81,7 @@ public class CustomIssueEventSensor implements IssueEventSensor {
         for(Event item : eventsOnSamePage) {
             eventTime = item.getCreatedAt().getTime();
 
-            if(now-eventTime <= 10000) {
+            if(now-eventTime <= BOT_SCHEDULE_PERIOD) {
                 if(isOpenedIssue(item)) {
                     this.checkedEvents.add(item);
                 }
