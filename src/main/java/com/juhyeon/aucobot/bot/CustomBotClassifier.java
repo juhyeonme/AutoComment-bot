@@ -2,6 +2,8 @@ package com.juhyeon.aucobot.bot;
 
 import com.juhyeon.aucobot.bot.exception.InvalidBotRequestException;
 import com.juhyeon.aucobot.service.GitHubIssueService;
+import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.event.IssuesPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,27 +25,24 @@ public class CustomBotClassifier<Event> implements BotClassifier<Event> {
 
     @Override
     public BotRequest classify(Event event) {
-
         BotRequest botRequest = null;
 
-        //TODO : @param event를 botRequest 형식에 적절히 parsing.
-        /*
-       Issue issue = this.gitHubIssueService.readNewIssue();
-       this.issueNumber = issue.getNumber();
-       BotRequest botRequest = BotRequest.builder()
-                                    .issueNumber(String.valueOf(issueNumber))
-                                    .author(issue.getUser().getLogin())
-                                    .title(issue.getTitle())
-                                    .body(issue.getBody())
-                                    .build();
+        if(event instanceof org.eclipse.egit.github.core.event.Event) {
+            IssuesPayload payload = (IssuesPayload)((org.eclipse.egit.github.core.event.Event) event).getPayload();
+            Issue issue = payload.getIssue();
+            this.issueNumber = issue.getNumber();
 
+            botRequest = BotRequest.builder()
+                    .issueNumber(String.valueOf(issueNumber))
+                    .author(issue.getUser().getLogin())
+                    .title(issue.getTitle())
+                    .body(issue.getBody())
+                    .build();
 
-
-        if(!botRequest.checkValidation()) {
-            return skip();
+            if (!botRequest.checkValidation()) {
+                return skip();
+            }
         }
-
-         */
 
         return null;
     }

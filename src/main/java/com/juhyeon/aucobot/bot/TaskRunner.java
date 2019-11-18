@@ -49,7 +49,14 @@ public class TaskRunner {
     @Scheduled(fixedDelay = BOT_SCHEDULE_PERIOD)
     public void sensingIEvent() {
         for(CustomIssueEventSensor eventSensor : eventSensors) {
-            LinkedList<IEvent> sensedEvents = (LinkedList<IEvent>) eventSensor.sensingEvent();
+            LinkedList<IEvent> sensedEvents;
+            try {
+                sensedEvents = (LinkedList<IEvent>) eventSensor.sensingEvent();
+            }
+            catch(ClassCastException exception) {
+                sensedEvents = null;
+                return;
+            }
 
             for(IEvent item : sensedEvents) {
                 this.iEventQueue.offer(item);

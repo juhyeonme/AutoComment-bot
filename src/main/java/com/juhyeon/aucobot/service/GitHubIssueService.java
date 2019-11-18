@@ -11,17 +11,13 @@ import org.eclipse.egit.github.core.service.RepositoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Repository;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedList;
 
 
 @Repository
-//@ConditionalOnProperty(prefix = "spring.api.github", name = "github-info")
 @EnableConfigurationProperties(GitHubProperties.class)
 @ConditionalOnWebApplication
 public class GitHubIssueService {
@@ -39,7 +35,7 @@ public class GitHubIssueService {
 
     @Autowired
     public GitHubIssueService(GitHubProperties gitHubProperties) throws IOException {
-        logger.info("[RepositoryManager] Initializing GitHub-RepositoryManager for the repository ... ");
+        logger.info("[GitHubIssueService] Initializing GitHub-RepositoryManager for the repository ... ");
 
         this.owner = gitHubProperties.getUser();
         this.repo = gitHubProperties.getRepo();

@@ -35,6 +35,7 @@ public class CustomIssueEventSensor implements IssueEventSensor {
     @Autowired
     public void setCustomBotClassifier(CustomBotClassifier<Event> botClassifier, GitHubIssueService service) {
         this.botClassifier = botClassifier;
+        this.service = service;
     }
 
     @Override
@@ -56,6 +57,9 @@ public class CustomIssueEventSensor implements IssueEventSensor {
         }
         catch(IOException exception) {
             //exception handling
+        }
+        catch(NullPointerException no_event) {
+            return Collections.emptyList();
         }
 
         if(!ObjectUtils.isEmpty(this.checkedEvents)) {
